@@ -17,22 +17,20 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.hilttutorial.R
 import com.example.hilttutorial.utils.Resource
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.fragment_character.*
 
 @AndroidEntryPoint
 class CharacterFragment : Fragment() ,CharacterAdapter.CharacterItemListener{
 
     private val viewModel: CharacterViewModel by viewModels()
-    private lateinit var adapter: CharacterAdapter
-    private lateinit var charactersRv:RecyclerView
-    private lateinit var progressBar: ProgressBar
+    private lateinit var characterAdapter: CharacterAdapter
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        charactersRv.findViewById<RecyclerView>(R.id.characters_rv)
-        progressBar.findViewById<ProgressBar>(R.id.progress_bar)
         return inflater.inflate(R.layout.fragment_character, container, false)
     }
 
@@ -46,22 +44,28 @@ class CharacterFragment : Fragment() ,CharacterAdapter.CharacterItemListener{
         viewModel.characters.observe(viewLifecycleOwner, {
             when(it.status){
                 Resource.Status.SUCCESS ->{
-                    progressBar.visibility = View.GONE
-                    if (!it.data.isNullOrEmpty()) adapter.setItems(ArrayList(it.data))
+                    progress_bar.visibility = View.GONE
+                    if (!it.data.isNullOrEmpty()) characterAdapter.setItems(ArrayList(it.data))
                 }
                 Resource.Status.ERROR ->
                     Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
 
                 Resource.Status.LOADING ->
-                    progressBar.visibility = View.VISIBLE
+                    progress_bar.visibility = View.VISIBLE
             }
         })
     }
 
     private fun setupRecyclerView() {
-        adapter = CharacterAdapter(this)
-        charactersRv.layoutManager = LinearLayoutManager(requireContext())
-        charactersRv.adapter = adapter
+//        adapter = CharacterAdapter(this)
+//        charactersRv.layoutManager = LinearLayoutManager(requireContext())
+//        charactersRv.adapter = adapter
+        characters_rv.apply {
+            layoutManager = LinearLayoutManager(activity)
+            characterAdapter = CharacterAdapter(this@CharacterFragment)
+            adapter = characterAdapter
+
+        }
     }
 
     override fun onClickedCharacter(characterId: Int) {

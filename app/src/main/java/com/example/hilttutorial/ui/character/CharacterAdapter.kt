@@ -11,6 +11,7 @@ import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.request.RequestOptions
 import com.example.hilttutorial.R
 import com.example.hilttutorial.data.entities.Character
+import kotlinx.android.synthetic.main.item_character.view.*
 
 class CharacterAdapter (private val listener:CharacterItemListener): RecyclerView.Adapter<CharacterAdapter.CharacterViewHolder>() {
     private val items = ArrayList<Character>()
@@ -36,9 +37,9 @@ class CharacterAdapter (private val listener:CharacterItemListener): RecyclerVie
     override fun getItemCount():Int = items.size
 
     class CharacterViewHolder(itemView: View,private val listener: CharacterItemListener):RecyclerView.ViewHolder(itemView),View.OnClickListener {
-        private val characterName: TextView = itemView.findViewById(R.id.name)
-        private val characterSpecies:TextView = itemView.findViewById(R.id.species_and_status)
-        private val characterImage:AppCompatImageView = itemView.findViewById(R.id.image)
+         val characterName = itemView.name
+         val characterSpecies = itemView.species_and_status
+         val characterImage = itemView.image
 
         private lateinit var character: Character
 

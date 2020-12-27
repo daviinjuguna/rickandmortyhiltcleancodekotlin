@@ -19,35 +19,17 @@ import com.example.hilttutorial.data.entities.Character
 import com.example.hilttutorial.data.entities.Origin
 import com.example.hilttutorial.utils.Resource
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.fragment_character_detail.*
 
 @AndroidEntryPoint
 class CharacterDetailFragment : Fragment() {
     private val viewModel: CharacterDetailViewModel by viewModels()
-    private lateinit var progressBar: ProgressBar
-    private lateinit var image:AppCompatImageView
-    private lateinit var name:TextView
-    private lateinit var species:TextView
-    private lateinit var status:TextView
-    private lateinit var gender:TextView
-    private lateinit var location:TextView
-    private lateinit var origin: TextView
-    private lateinit var characterCl:ConstraintLayout
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        progressBar.findViewById<ProgressBar>(R.id.progress_bar)
-        image.findViewById<AppCompatImageView>(R.id.image)
-        name.findViewById<TextView>(R.id.name)
-        species.findViewById<TextView>(R.id.species)
-        status.findViewById<TextView>(R.id.status)
-        gender.findViewById<TextView>(R.id.gender)
-        location.findViewById<TextView>(R.id.location)
-        origin.findViewById<TextView>(R.id.origin)
-        characterCl.findViewById<ConstraintLayout>(R.id.character_cl)
         return inflater.inflate(R.layout.fragment_character_detail, container, false)
     }
 
@@ -68,16 +50,16 @@ class CharacterDetailFragment : Fragment() {
             when(it.status){
                 Resource.Status.SUCCESS ->{
                     bindCharacters(it.data!!)
-                    progressBar.visibility = View.GONE
-                    characterCl.visibility = View.VISIBLE
+                    progress_bar.visibility = View.GONE
+                    character_cl.visibility = View.VISIBLE
                 }
 
                 Resource.Status.ERROR ->
                     Toast.makeText(activity, it.message, Toast.LENGTH_SHORT).show()
 
                 Resource.Status.LOADING -> {
-                    progressBar.visibility = View.VISIBLE
-                    characterCl.visibility = View.GONE
+                    progress_bar.visibility = View.VISIBLE
+                    character_cl.visibility = View.GONE
                 }
             }
         })
@@ -88,11 +70,17 @@ class CharacterDetailFragment : Fragment() {
         species.text = characters.species
         status.text = characters.status
         gender.text = characters.gender
-        location.text = characters.location.name
+//        location.text = characters.location.name
         origin.text = characters.origin.name
 
-        context?.let {
-            Glide.with(it)
+//        context?.let {
+//            Glide.with(it)
+//                .load(characters.image)
+//                .transform(CircleCrop())
+//                .into(image)
+//        }
+        activity?.let {
+            Glide.with(it.applicationContext)
                 .load(characters.image)
                 .transform(CircleCrop())
                 .into(image)

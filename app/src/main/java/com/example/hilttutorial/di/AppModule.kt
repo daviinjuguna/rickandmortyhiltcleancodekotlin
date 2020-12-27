@@ -28,11 +28,9 @@ object AppModule {
         .addConverterFactory(GsonConverterFactory.create(gson))
         .build()
 
-    @Singleton
     @Provides
     fun provideGson(): Gson = GsonBuilder().create()
 
-    @Singleton
     @Provides
     fun provideCharacterService(retrofit: Retrofit): CharacterService = retrofit.create(CharacterService::class.java)
 
