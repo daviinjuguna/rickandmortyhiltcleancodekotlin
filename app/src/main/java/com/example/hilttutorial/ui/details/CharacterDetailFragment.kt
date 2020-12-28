@@ -71,7 +71,7 @@ class CharacterDetailFragment : Fragment() {
         status.text = characters.status
         gender.text = characters.gender
 //        location.text = characters.location.name
-        origin.text = characters.origin.name
+//        origin.text = characters.origin.name
 
 //        context?.let {
 //            Glide.with(it)
